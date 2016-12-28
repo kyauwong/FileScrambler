@@ -2,8 +2,10 @@
 
 using std::vector;
 using std::string;
+using std::mt19937_64;
+using namespace RandomEngines;
 
-RandomEngines::SeedPack RandomEngines::StringToSeed(const string &pString)
+SeedPack RandomEngines::StringToSeed(const string &pString)
 {
     SeedPack result;
     for (size_t i=0;i<pString.size();++i) {
@@ -15,14 +17,23 @@ RandomEngines::SeedPack RandomEngines::StringToSeed(const string &pString)
     return result;
 }
 
-vector<std::mt19937_64> RandomEngines::GetGenerators(const SeedPack& pSeeds)
+RandomFlipGenerator::RandomFlipGenerator(const SeedPack &pSeeds):
+    mRandomGenerators(RandGenerators(pSeeds)),
+    mDistribution(CHAR_MIN, CHAR_MAX)
 {
-//    const size_t discardSize= 1000;
-//    vector<std::mt19937_64> result;
-//    result.reserve(pSeeds.size());
-//    for (unsigned int i = 0; i < pSeeds.size();++i) {
-//        result.emplace_back(pSeeds.at(i));
-//        result.at(i).discard(i*discardSize);
-//    }
-    return {};
+
+}
+
+char RandomFlipGenerator::GetByteFlip()
+{
+    char result = mDistribution(mRandomGenerators.at(mFence++));
+    if (mFence == mRandomGenerators.size()) mFence = 0;
+    return result;
+}
+
+auto RandomFlipGenerator::RandGenerators(const SeedPack &pSeeds)->RandGenPack
+{
+    RandGenPack result;
+    for (const auto&i:pSeeds) result.emplace_back(i);
+    return result;
 }

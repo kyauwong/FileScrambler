@@ -1,7 +1,6 @@
 #include <QString>
 #include <QtTest>
 #include "../Scrambler/RandomEngines.h"
-#include <iostream>
 
 using namespace RandomEngines;
 
@@ -10,16 +9,12 @@ class ScramblerTest : public QObject
     Q_OBJECT
 
 public:
-    ScramblerTest();
+    ScramblerTest() = default;
 
 private Q_SLOTS:
     void TestStringToSeed();
-    void TestGetGenerators();
+    void TestRandomFlipGenerator();
 };
-
-ScramblerTest::ScramblerTest()
-{
-}
 
 void ScramblerTest::TestStringToSeed()
 {
@@ -39,9 +34,29 @@ void ScramblerTest::TestStringToSeed()
     QCOMPARE(StringToSeed("testcaseABC"), expect);
 }
 
-void ScramblerTest::TestGetGenerators()
+void ScramblerTest::TestRandomFlipGenerator()
 {
+    SeedPack seeds = {1,2,3,4,5};
+    const auto nSeeds = seeds.size();
+    auto generator = RandomFlipGenerator(seeds);
+    std::vector<std::mt19937_64> generators;
+    generators.reserve(nSeeds);
+    for (size_t i = 0 ; i < nSeeds;++i) {
+        generators.emplace_back(seeds.at(i));
+    }
 
+    std::uniform_int_distribution<short> distribution(CHAR_MIN, CHAR_MAX);
+    std::vector<char> expect;
+    const size_t nExpect = nSeeds*10;
+    expect.reserve(nExpect);
+    for (size_t i = 0 ; i < nExpect; ++i) {
+        const short randomValue = distribution(generators.at(i%nSeeds));
+        expect.emplace_back(char(randomValue));
+    }
+
+    for (const auto &i:expect){
+        QCOMPARE(generator.GetByteFlip(), i);
+    }
 }
 
 QTEST_APPLESS_MAIN(ScramblerTest)
