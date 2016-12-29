@@ -1,5 +1,5 @@
-#ifndef SCRAMBLER_H
-#define SCRAMBLER_H
+#ifndef RANDOMENGINES_H
+#define RANDOMENGINES_H
 
 #include <string>
 #include <vector>
@@ -33,4 +33,4 @@ private:
 
 };
 
-#endif // SCRAMBLER_H
+#endif // RANDOMENGINES_H
