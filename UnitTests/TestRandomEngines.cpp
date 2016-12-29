@@ -1,22 +1,9 @@
-#include <QString>
-#include <QtTest>
+#include "TestRandomEngines.h"
 #include "../Scrambler/RandomEngines.h"
 
 using namespace RandomEngines;
 
-class ScramblerTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    ScramblerTest() = default;
-
-private Q_SLOTS:
-    void TestStringToSeed();
-    void TestRandomFlipGenerator();
-};
-
-void ScramblerTest::TestStringToSeed()
+void TestRandomEngines::TestStringToSeed()
 {
     std::vector<ULong64> expect;
     QCOMPARE(StringToSeed(""), expect);
@@ -34,7 +21,7 @@ void ScramblerTest::TestStringToSeed()
     QCOMPARE(StringToSeed("testcaseABC"), expect);
 }
 
-void ScramblerTest::TestRandomFlipGenerator()
+void TestRandomEngines::TestRandomFlipGenerator()
 {
     SeedPack seeds = {1,2,3,4,5};
     const auto nSeeds = seeds.size();
@@ -58,7 +45,3 @@ void ScramblerTest::TestRandomFlipGenerator()
         QCOMPARE(generator.GetByteFlip(), i);
     }
 }
-
-QTEST_APPLESS_MAIN(ScramblerTest)
-
-#include "TestRandomEngines.moc"
