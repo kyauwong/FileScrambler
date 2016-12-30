@@ -1,7 +1,7 @@
 #include "TestRandomEngines.h"
-#include "../Scrambler/RandomEngines.h"
+#include "../Scrambler/FileScrambler.h"
 
-using namespace RandomEngines;
+using namespace FileScrambler;
 
 void TestRandomEngines::TestStringToSeed()
 {

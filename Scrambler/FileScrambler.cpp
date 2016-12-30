@@ -1,11 +1,11 @@
-#include "RandomEngines.h"
+#include "FileScrambler.h"
 
 using std::vector;
 using std::string;
 using std::mt19937_64;
-using namespace RandomEngines;
+using namespace FileScrambler;
 
-SeedPack RandomEngines::StringToSeed(const string &pString)
+SeedPack FileScrambler::StringToSeed(const string &pString)
 {
     SeedPack result;
     for (size_t i=0;i<pString.size();++i) {

@@ -1,12 +1,12 @@
-#ifndef RANDOMENGINES_H
-#define RANDOMENGINES_H
+#ifndef FILESCRAMBLER_H
+#define FILESCRAMBLER_H
 
 #include <string>
 #include <vector>
 #include <climits>
 #include <random>
 
-namespace RandomEngines
+namespace FileScrambler
 {
 typedef unsigned long long ULong64;
 typedef std::vector<ULong64> SeedPack;
@@ -33,4 +33,4 @@ private:
 
 };
 
-#endif // RANDOMENGINES_H
+#endif // FILESCRAMBLER_H

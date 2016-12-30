@@ -11,10 +11,10 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    RandomEngines.cpp
+    FileScrambler.cpp
 
 HEADERS += \
-    RandomEngines.h
+    FileScrambler.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
