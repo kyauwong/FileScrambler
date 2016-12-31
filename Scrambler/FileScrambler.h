@@ -31,6 +31,11 @@ private:
     RandGenPack RandGenerators(const SeedPack& pSeeds);
 };
 
+void FileScrambler(const std::string& pFilePath,
+                   RandomFlipGenerator& pRandomFlipGen);
+
+void FileScrambler(const std::string& pFilePath,
+                   const std::string& pKeyword);
 };
 
 #endif // FILESCRAMBLER_H
