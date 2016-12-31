@@ -8,7 +8,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = TestRandomEngines
+TARGET = TestAll
 CONFIG   += console
 CONFIG   -= app_bundle
 
