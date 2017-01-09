@@ -2,6 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     UnitTests \
-    Scrambler
+    Scrambler \
+    ScramblerGUI
 
-UnitTests.depends = Scrambler
+ScramblerGUI.depends = Scrambler
+UnitTests.depends = Scrambler ScramblerGUI

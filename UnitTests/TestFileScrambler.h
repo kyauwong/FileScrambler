@@ -11,10 +11,8 @@ class TestFileScrambler : public QObject
 
 private Q_SLOTS:
     void TestStringToSeed();
-    void TestRandomFlipGenerator();
-    void TestFileScramblerFunction();
-    void TestFileScramblerIntegratedFunction();
-    static std::string ReadFileFirstLine(const std::string& pFilePath);
+    void TestReadFileBytes();
+    void TestFlipBits();
 };
 
 ADD_TEST(TestFileScrambler)

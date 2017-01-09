@@ -20,50 +20,50 @@ SeedPack FileScrambler::StringToSeed(const string &pString)
     return result;
 }
 
-RandomFlipGenerator::RandomFlipGenerator(const SeedPack &pSeeds):
-    mRandomGenerators(RandGenerators(pSeeds)),
-    mDistribution(CHAR_MIN, CHAR_MAX)
-{
-
-}
-
-char RandomFlipGenerator::GetByteFlip()
-{
-    char result = mDistribution(mRandomGenerators.at(mFence++));
-    if (mFence == mRandomGenerators.size()) mFence = 0;
-    return result;
-}
-
-auto RandomFlipGenerator::RandGenerators(const SeedPack &pSeeds)->RandGenPack
-{
-    RandGenPack result;
-    for (const auto&i:pSeeds) result.emplace_back(i);
-    return result;
-}
-
-void FileScrambler::FileScrambler(const std::string &pFilePath,
-                                  RandomFlipGenerator &pRandomFlipGen)
+BinaryData ReadFileBytes::Read(const std::string &pPath)
 {
     using namespace std;
-    fstream file(pFilePath.data(), ios::in | ios::out | ios::binary | ios::ate);
+    fstream file(pPath.data(), ios::in | ios::binary | ios::ate);
+    if (!file.good()) throw std::runtime_error(pPath+" doesn't exist.");
     const auto end = file.tellg();
     file.seekg(0);
     const auto begin = file.tellg();
     const size_t nBytes = end-begin;
+    SetTotalSteps(nBytes);
 
-    std::vector<char> fileByte(nBytes);
-    file.read(&fileByte[0], nBytes);
-    file.seekp(0);
-    for (unsigned int i = 0 ; i < nBytes; ++i) {
-        fileByte[i] ^= pRandomFlipGen.GetByteFlip();
-        file.write(&fileByte[i], 1);
+    BinaryData result(nBytes);
+    for (size_t i = 0; i < nBytes; ++i) {
+        file.read(&result[i], 1);
+        AddOneCompletedStep();
+    }
+    return result;
+}
+
+void FlipBits::Encode(BinaryData &pData, RandomFlipGenerator &pRandFlipGen)
+{
+    SetTotalSteps(pData.size());
+    for (auto &iByte: pData) {
+        iByte^= pRandFlipGen.GetByteFlip();
+        AddOneCompletedStep();
     }
 }
 
-void FileScrambler::FileScrambler(const std::string &pFilePath,
+void FileScrambler::ScrambleFile(const std::string &pFilePath,
                                   const std::string &pKeyword)
 {
     const auto seeds = StringToSeed(pKeyword);
-    RandomFlipGenerator generator(seeds);
-    FileScrambler(pFilePath, generator);
+    auto data = ReadFileBytes().Read(pFilePath);
+    FlipBits().Encode(data, MersenneRandFlipGen(seeds));
+    WriteBytesToFile().Write(data, pFilePath);
+}
+
+void WriteBytesToFile::Write(BinaryData &pData, const std::string &pOutputFile)
+{
+    using namespace std;
+    fstream file(pOutputFile.data(), ios::out | ios::binary | ios::trunc);
+    SetTotalSteps(pData.size());
+    for (auto &i: pData) {
+        file.write(&i, 1);
+        AddOneCompletedStep();
+    }
 }

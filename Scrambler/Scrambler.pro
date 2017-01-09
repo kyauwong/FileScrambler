@@ -11,10 +11,15 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    FileScrambler.cpp
+    FileScrambler.cpp \
+    ProgressBarProcess.cpp \
+    RandomFlipGenerator.cpp
 
 HEADERS += \
-    FileScrambler.h
+    FileScrambler.h \
+    ProgressBarProcess.h \
+    RandomFlipGenerator.h \
+    FileScramblerDefs.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
