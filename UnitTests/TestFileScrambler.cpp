@@ -44,6 +44,9 @@ public:
         return mValue++;
     }
     char mValue = 1;
+    void Reset() {
+        mValue = 1;
+    }
 };
 
 void TestFileScrambler::TestFlipBits()
@@ -52,8 +55,11 @@ void TestFileScrambler::TestFlipBits()
     std::vector<char> expect = data;
 
     FlipBits test;
-    test.Encode(data, MockRandomFlipGenerator());
+    MockRandomFlipGenerator mockFlipper;
+    test.Encode(data, mockFlipper);
     QVERIFY(data!=expect);
-    test.Encode(data, MockRandomFlipGenerator());
+
+    mockFlipper.Reset();
+    test.Encode(data, mockFlipper);
     QVERIFY(data==expect);
 }

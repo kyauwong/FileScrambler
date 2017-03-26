@@ -1,6 +1,8 @@
 #ifndef PROGRESSBARPROCESS_H
 #define PROGRESSBARPROCESS_H
 
+#include <cstdio>
+
 class ProgressBarProcess
 {
 public:

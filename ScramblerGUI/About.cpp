@@ -6,6 +6,9 @@ About::About(QWidget *parent) :
     ui(new Ui::About)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags()
+                   ^Qt::WindowCloseButtonHint
+                   ^Qt::WindowContextHelpButtonHint);
 }
 
 About::~About()

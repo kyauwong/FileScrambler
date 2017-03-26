@@ -53,7 +53,9 @@ void FileScrambler::ScrambleFile(const std::string &pFilePath,
 {
     const auto seeds = StringToSeed(pKeyword);
     auto data = ReadFileBytes().Read(pFilePath);
-    FlipBits().Encode(data, MersenneRandFlipGen(seeds));
+    auto randFlipGen = MersenneRandFlipGen(seeds);
+    auto flipBitsAlgo = FlipBits();
+    flipBitsAlgo.Encode(data, randFlipGen);
     WriteBytesToFile().Write(data, pFilePath);
 }
 

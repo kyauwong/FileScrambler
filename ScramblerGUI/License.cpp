@@ -6,6 +6,9 @@ License::License(QWidget *parent) :
     ui(new Ui::License)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags()
+                   ^Qt::WindowCloseButtonHint
+                   ^Qt::WindowContextHelpButtonHint);
 }
 
 License::~License()

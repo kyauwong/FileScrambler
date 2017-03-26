@@ -35,7 +35,6 @@ private:
     Ui::MainWindow *ui;
     void BoxMessage(const QString& pMessage, const QString& pTitle="");
     bool IsValidInput();
-    void ToggleTitleBarIcons(QDialog& pDialog) const;
     void CallEncoding(const QString& pOutputPath, Encoding::Action pAction);
     const QString mEncodedFileExtension=".fsf";
 };

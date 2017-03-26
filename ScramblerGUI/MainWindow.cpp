@@ -75,26 +75,20 @@ bool MainWindow::IsValidInput()
 
     bool result = true;
 
+    static const QString errorTitle = tr("Error");
     if (keyword.empty()) {
-        BoxMessage("Keyword is empty.", "Error");
+        BoxMessage(tr("Keyword is empty."), errorTitle);
         result = false;
     }
     else if (filePath.empty()) {
-        BoxMessage("You must specify a valid file", "Error");
+        BoxMessage(tr("You must specify a valid file"), errorTitle);
         result = false;
     }
     else if (!file.exists()) {
-        BoxMessage("File "+file.path()+" could not be found", "Error");
+        BoxMessage(tr("File could not be found:")+file.path() , errorTitle);
         result = false;
     }
     return result;
-}
-
-void MainWindow::ToggleTitleBarIcons(QDialog &pDialog) const
-{
-    pDialog.setWindowFlags(pDialog.windowFlags()
-                           ^Qt::WindowCloseButtonHint
-                           ^Qt::WindowContextHelpButtonHint);
 }
 
 void MainWindow::CallEncoding(const QString &pOutputPath,
@@ -112,13 +106,11 @@ void MainWindow::CallEncoding(const QString &pOutputPath,
 void MainWindow::on_actionLicense_triggered()
 {
     auto screen = new License(this);
-    ToggleTitleBarIcons(*screen);
     screen->show();
 }
 
 void MainWindow::on_actionAbout_triggered()
 {
     auto screen = new About(this);
-    ToggleTitleBarIcons(*screen);
     screen->show();
 }

@@ -24,8 +24,9 @@ public:
                  const QString& pKeyword, Action pAction);
 
 private:
-    typedef FileScrambler::BinaryData BinaryData;
     Ui::Encoding *ui;
+
+    typedef FileScrambler::BinaryData BinaryData;
     void RunWithProgressBar(QProgressBar* pBar,
                            const ProgressBarProcess& pProcess,
                            std::function<void()> pFunction);
